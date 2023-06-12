@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+        <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="messages"></div>
+    <form id="form">
+        <input type="text" id="nickname" />
+        <input type="text" id="input"  />
+        <button>Enviar</button>
+    </form>
+
+    <script>
+        var ws = new WebSocket("ws://localhost:8888/chat");
+        var form = document.getElementById("form");
+        var input = document.getElementById("input");
+        var nickname = document.getElementById("nickname");
+        var messages = document.getElementById("messages");
+
+        function imprimirMensagem(sender, messageText) {
+
+            }
+
+        ws.onmessage = function(event) {
+
+             messageText = event.data
+
+             var message = document.createElement("div");
+             message.innerHTML =  messageText
+             messages.appendChild(message);
+             messages.scrollTop = messages.scrollHeight;
+
+
+        };
+
+        form.onsubmit = function(event) {
+
+            var horario = new Date();
+            horario_mensagem = horario.getHours() + ":" + horario.getMinutes();
+            var dados_mensagem = [ horario_mensagem, nickname.value, input.value]
+
+            event.preventDefault();
+            ws.send(dados_mensagem);
+
+            input.value = "";
+        };
+    </script>
+</body>
+</html>

@@ -20,7 +20,7 @@ class ChatHandler(tornado.websocket.WebSocketHandler):
             nickname = objmessagem[1]
             mensagem = objmessagem[2]
 
-            messagem_formatada= f"<p>({horario})<strong>{nickname} fala </strong> {mensagem}</p>"
+            messagem_formatada= f"<p>({horario}) <strong> {nickname} fala </strong> {mensagem}</p>"
 
             client.write_message(messagem_formatada)
 
@@ -31,5 +31,6 @@ class ChatHandler(tornado.websocket.WebSocketHandler):
 app = tornado.web.Application([(r"/chat", ChatHandler), ])
 
 if __name__ == "__main__":
+    print("Servidor escutando na porta 8888")    
     app.listen(8888, address="0.0.0.0")
     tornado.ioloop.IOLoop.current().start()

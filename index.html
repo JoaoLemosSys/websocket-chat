@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Chat</title>
-        <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div id="messages"></div>
-    <form id="form">
-        <input type="text" id="nickname" />
-        <input type="text" id="input"  />
-        <button>Enviar</button>
-    </form>
+
+    <div id="page-container">
+        <div id="content-wrap">
+            <div id="messages"></div>
+        </div>
+        <footer id="footer">
+            <div>
+                <form id="form">
+                    Usuário:
+                    <input type="text" id="nickname" />
+                    <input type="text" id="input" />
+                    <button>Enviar</button>
+                </form>
+            </div>
+        </footer>
+    </div>
+
+
+
 
     <script>
         var ws = new WebSocket("ws://localhost:8888/chat");
@@ -21,25 +36,25 @@
 
         function imprimirMensagem(sender, messageText) {
 
-            }
+        }
 
-        ws.onmessage = function(event) {
+        ws.onmessage = function (event) {
 
-             messageText = event.data
+            messageText = event.data
 
-             var message = document.createElement("div");
-             message.innerHTML =  messageText
-             messages.appendChild(message);
-             messages.scrollTop = messages.scrollHeight;
+            var message = document.createElement("div");
+            message.innerHTML = messageText
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
 
 
         };
 
-        form.onsubmit = function(event) {
+        form.onsubmit = function (event) {
 
             var horario = new Date();
-            horario_mensagem = horario.getHours() + ":" + horario.getMinutes();
-            var dados_mensagem = [ horario_mensagem, nickname.value, input.value]
+            horario_mensagem = horario.getHours() + ":" + horario.getMinutes() + ":" + horario.getSeconds();
+            var dados_mensagem = [horario_mensagem, nickname.value, input.value]
 
             event.preventDefault();
             ws.send(dados_mensagem);
@@ -48,4 +63,5 @@
         };
     </script>
 </body>
+
 </html>
